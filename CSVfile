@@ -1,0 +1,20 @@
+import csv
+import urllib
+
+
+url_to_scrape = 'https://www.arcgis.com/home/item.html?id=f6921c5b12e64d17b5cd173cafb23677#data'
+ 
+r = requests.get(url_to_scrape)
+ 
+crime = (r.text)
+ 
+inmates_links = []
+ 
+for table_row in crime.select(".inmatesList tr"):
+        table_cells = table_row.findAll('td')
+
+        if len(table_cells) > 2:
+                relative_link_to_inmate_details = table_cells[2].find('a')['href']
+                absolute_link_to_inmate_details = url_to_scrape + relative_link_to_inmate_details
+inmates_links.append(absolute_link_to_inmate_details)
+
